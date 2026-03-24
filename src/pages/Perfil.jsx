@@ -1,40 +1,15 @@
-import { useEffect, useState } from 'react'
-import { getProfile } from '../services/profile'
-
-const fallback = {
-  nombre: 'Norvin García',
-  bio: 'Agente inmobiliario especializado en propiedades premium y oportunidades de inversión.',
-  foto: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80',
-  whatsapp: 'https://wa.me/18090000000',
-  facebook: 'https://facebook.com',
-  instagram: 'https://instagram.com',
-  email: 'norvin@email.com',
-  telefono: '+1 (809) 000-0000',
-}
-
 export default function Perfil() {
-  const [perfil, setPerfil] = useState(fallback)
-
-  useEffect(() => {
-    getProfile().then((data) => data && setPerfil((prev) => ({ ...prev, ...data })))
-  }, [])
-
   return (
-    <main className="section-wrap pt-28">
-      <div className="grid gap-6 rounded-3xl border border-white/10 bg-slate-900/60 p-8 shadow-soft md:grid-cols-3">
-        <img src={perfil.foto} alt={perfil.nombre} className="h-80 w-full rounded-2xl object-cover" />
-        <div className="space-y-4 md:col-span-2">
-          <h1 className="text-4xl font-semibold">{perfil.nombre}</h1>
-          <p className="text-slate-300">{perfil.bio}</p>
-          <p>Email: {perfil.email}</p>
-          <p>Tel: {perfil.telefono}</p>
-          <div className="flex flex-wrap gap-3">
-            <a href={perfil.facebook} className="rounded-xl border border-white/20 px-4 py-2" target="_blank" rel="noreferrer">Facebook</a>
-            <a href={perfil.instagram} className="rounded-xl border border-white/20 px-4 py-2" target="_blank" rel="noreferrer">Instagram</a>
-            <a href={perfil.whatsapp} className="rounded-xl border border-white/20 px-4 py-2" target="_blank" rel="noreferrer">WhatsApp</a>
-          </div>
-        </div>
+    <section className="panel stack">
+      <h2>Perfil del agente</h2>
+      <p><strong>Norvin García</strong> — Especialista en propiedades residenciales y comerciales premium.</p>
+      <p>+15 años en el mercado inmobiliario, enfoque en inversión inteligente y atención personalizada.</p>
+      <div className="socials">
+        <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="mailto:agent@diamantesrealtygroup.com">Email</a>
       </div>
-    </main>
+    </section>
   )
 }

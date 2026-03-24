@@ -1,65 +1,53 @@
-import { AnimatePresence } from 'framer-motion'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { NavLink, Route, Routes } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Propiedades from './pages/Propiedades'
-import PropiedadDetalle from './pages/PropiedadDetalle'
-import Perfil from './pages/Perfil'
 import Mapa from './pages/Mapa'
-import Contacto from './pages/Contacto'
-import Login from './pages/Login'
-import AdminDashboard from './pages/AdminDashboard'
-import AdminPropiedades from './pages/AdminPropiedades'
-import AdminPerfil from './pages/AdminPerfil'
-import { db } from './services/firebase'
+import Perfil from './pages/Perfil'
+import Admin from './pages/Admin'
+
+const transition = { duration: 0.35, ease: 'easeInOut' }
+
+function AnimatedPage({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={transition}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 export default function App() {
-  const location = useLocation()
-  const hideLayout = location.pathname.startsWith('/admin') || location.pathname === '/login'
-  console.log('App cargando correctamente')
-  console.log('Firebase conectado:', db)
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      {!hideLayout && <Navbar />}
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/propiedades" element={<Propiedades />} />
-          <Route path="/propiedades/:id" element={<PropiedadDetalle />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/mapa" element={<Mapa />} />
-          <Route path="/contacto" element={<Contacto />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/propiedades"
-            element={
-              <ProtectedRoute>
-                <AdminPropiedades />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/perfil"
-            element={
-              <ProtectedRoute>
-                <AdminPerfil />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </AnimatePresence>
-      {!hideLayout && <Footer />}
+    <div className="app-shell">
+      <Navbar />
+      <main className="container">
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
+            <Route path="/propiedades" element={<AnimatedPage><Propiedades /></AnimatedPage>} />
+            <Route path="/mapa" element={<AnimatedPage><Mapa /></AnimatedPage>} />
+            <Route path="/perfil" element={<AnimatedPage><Perfil /></AnimatedPage>} />
+            <Route path="/admin" element={<AnimatedPage><Admin /></AnimatedPage>} />
+            <Route path="*" element={<AnimatedPage><NotFound /></AnimatedPage>} />
+          </Routes>
+        </AnimatePresence>
+      </main>
     </div>
+  )
+}
+
+function NotFound() {
+  return (
+    <section className="panel center">
+      <h2>Página no encontrada</h2>
+      <p>La ruta no existe. Regresa al inicio para continuar.</p>
+      <NavLink to="/" className="btn-primary">Ir al inicio</NavLink>
+    </section>
   )
 }
