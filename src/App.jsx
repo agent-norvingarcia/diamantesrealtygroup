@@ -18,6 +18,7 @@ import { db } from './services/firebase'
 export default function App() {
   const location = useLocation()
   const hideLayout = location.pathname.startsWith('/admin') || location.pathname === '/login'
+  console.log('App cargando correctamente')
   console.log('Firebase conectado:', db)
 
   return (
