@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import PropertyCard from '../components/PropertyCard'
-import { subscribePropiedades } from '../services/firebase'
+import { subscribeProperties } from '../services/properties'
 
 export default function Propiedades() {
   const [properties, setProperties] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = subscribePropiedades((items) => {
+    const unsubscribe = subscribeProperties((items) => {
       setProperties(items)
       setLoading(false)
     })

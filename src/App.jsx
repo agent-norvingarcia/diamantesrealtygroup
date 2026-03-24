@@ -13,10 +13,12 @@ import Login from './pages/Login'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminPropiedades from './pages/AdminPropiedades'
 import AdminPerfil from './pages/AdminPerfil'
+import { db } from './services/firebase'
 
 export default function App() {
   const location = useLocation()
   const hideLayout = location.pathname.startsWith('/admin') || location.pathname === '/login'
+  console.log('Firebase conectado:', db)
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">

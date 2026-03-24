@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { watchAuth } from '../services/firebase'
+import { watchAuthUser } from '../services/auth'
 
 export default function ProtectedRoute({ children }) {
   const [status, setStatus] = useState('loading')
 
   useEffect(() => {
-    const unsubscribe = watchAuth((user) => setStatus(user ? 'ok' : 'blocked'))
+    const unsubscribe = watchAuthUser((user) => setStatus(user ? 'ok' : 'blocked'))
     return unsubscribe
   }, [])
 

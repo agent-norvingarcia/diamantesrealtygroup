@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginAdmin } from '../services/firebase'
+import { loginUser } from '../services/auth'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -11,7 +11,7 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      await loginAdmin(email, password)
+      await loginUser(email, password)
       navigate('/admin')
     } catch {
       setError('Credenciales inválidas')

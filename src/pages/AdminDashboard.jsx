@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { logoutAdmin } from '../services/firebase'
+import { logoutUser } from '../services/auth'
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await logoutAdmin()
+    await logoutUser()
     navigate('/login')
   }
 
