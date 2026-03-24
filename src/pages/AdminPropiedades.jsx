@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react'
 import PropertyForm from '../components/PropertyForm'
 import {
-  createPropiedad,
-  editPropiedad,
-  removePropiedad,
-  subscribePropiedades,
-  uploadPropiedadImage,
-} from '../services/firebase'
+  addProperty,
+  deleteProperty,
+  subscribeProperties,
+  updateProperty,
+} from '../services/properties'
+import { uploadImage } from '../services/storage'
 
 export default function AdminPropiedades() {
   const [properties, setProperties] = useState([])
   const [selected, setSelected] = useState(null)
 
   useEffect(() => {
-    const unsubscribe = subscribePropiedades(setProperties)
+    const unsubscribe = subscribeProperties(setProperties)
     return unsubscribe
   }, [])
 
   const handleSubmit = async (form, files) => {
-    const urls = files.length ? await Promise.all(files.map(uploadPropiedadImage)) : []
+    const urls = files.length ? await Promise.all(files.map(uploadImage)) : []
     const payload = {
       ...form,
       precio: Number(form.precio),
@@ -32,10 +32,10 @@ export default function AdminPropiedades() {
     }
 
     if (selected) {
-      await editPropiedad(selected.id, payload)
+      await updateProperty(selected.id, payload)
       setSelected(null)
     } else {
-      await createPropiedad({ ...payload, createdAt: new Date().toISOString() })
+      await addProperty({ ...payload, createdAt: new Date().toISOString() })
     }
   }
 
@@ -53,7 +53,7 @@ export default function AdminPropiedades() {
               </div>
               <div className="flex gap-2">
                 <button className="rounded-lg border border-white/20 px-3 py-1" onClick={() => setSelected(item)}>Editar</button>
-                <button className="rounded-lg border border-red-500/40 px-3 py-1 text-red-300" onClick={() => removePropiedad(item.id)}>Eliminar</button>
+                <button className="rounded-lg border border-red-500/40 px-3 py-1 text-red-300" onClick={() => deleteProperty(item.id)}>Eliminar</button>
               </div>
             </article>
           ))}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getPerfil, savePerfil } from '../services/firebase'
+import { getProfile, saveProfile } from '../services/profile'
 
 const defaults = {
   nombre: 'Norvin García',
@@ -16,12 +16,12 @@ export default function AdminPerfil() {
   const [form, setForm] = useState(defaults)
 
   useEffect(() => {
-    getPerfil().then((data) => data && setForm((previous) => ({ ...previous, ...data })))
+    getProfile().then((data) => data && setForm((previous) => ({ ...previous, ...data })))
   }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    await savePerfil(form)
+    await saveProfile(form)
     alert('Perfil actualizado')
   }
 

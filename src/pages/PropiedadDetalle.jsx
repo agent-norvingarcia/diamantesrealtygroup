@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { getPropiedad } from '../services/firebase'
+import { getProperty } from '../services/properties'
 
 export default function PropiedadDetalle() {
   const { id } = useParams()
   const [property, setProperty] = useState(null)
 
   useEffect(() => {
-    getPropiedad(id).then(setProperty)
+    getProperty(id).then(setProperty)
   }, [id])
 
   if (!property) {

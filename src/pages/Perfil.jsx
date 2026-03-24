@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getPerfil } from '../services/firebase'
+import { getProfile } from '../services/profile'
 
 const fallback = {
   nombre: 'Norvin García',
@@ -16,7 +16,7 @@ export default function Perfil() {
   const [perfil, setPerfil] = useState(fallback)
 
   useEffect(() => {
-    getPerfil().then((data) => data && setPerfil((prev) => ({ ...prev, ...data })))
+    getProfile().then((data) => data && setPerfil((prev) => ({ ...prev, ...data })))
   }, [])
 
   return (

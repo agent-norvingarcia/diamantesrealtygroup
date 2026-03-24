@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import MapComponent from '../components/MapComponent'
-import { getPropiedades } from '../services/firebase'
+import { getProperties } from '../services/properties'
 
 export default function Mapa() {
   const [properties, setProperties] = useState([])
 
   useEffect(() => {
-    getPropiedades().then(setProperties)
+    getProperties().then(setProperties)
   }, [])
 
   return (
