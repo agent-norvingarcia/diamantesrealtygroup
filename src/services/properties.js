@@ -1,32 +1,31 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, updateDoc } from 'firebase/firestore'
-import { db } from './firebase'
+import { addDoc, collection, getDocs, orderBy, query, serverTimestamp } from 'firebase/firestore'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { db, storage } from './firebase'
 
-const propiedadesRef = collection(db, 'propiedades')
+const collectionRef = collection(db, 'propiedades')
 
-export const addProperty = async (data) => {
-  return await addDoc(propiedadesRef, data)
+export async function fetchProperties() {
+  const q = query(collectionRef, orderBy('createdAt', 'desc'))
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
 }
 
-export const getProperties = async () => {
-  const snapshot = await getDocs(propiedadesRef)
-  return snapshot.docs.map((propertyDoc) => ({ id: propertyDoc.id, ...propertyDoc.data() }))
-}
+export async function createProperty(formData) {
+  const payload = { ...formData }
 
-export const subscribeProperties = (callback) => {
-  return onSnapshot(propiedadesRef, (snapshot) => {
-    callback(snapshot.docs.map((propertyDoc) => ({ id: propertyDoc.id, ...propertyDoc.data() })))
+  if (formData.imageFile) {
+    const imageRef = ref(storage, `properties/${Date.now()}-${formData.imageFile.name}`)
+    await uploadBytes(imageRef, formData.imageFile)
+    payload.imageUrl = await getDownloadURL(imageRef)
+  }
+
+  delete payload.imageFile
+
+  await addDoc(collectionRef, {
+    ...payload,
+    price: Number(payload.price),
+    lat: Number(payload.lat),
+    lng: Number(payload.lng),
+    createdAt: serverTimestamp()
   })
-}
-
-export const getProperty = async (id) => {
-  const snapshot = await getDoc(doc(db, 'propiedades', id))
-  return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null
-}
-
-export const updateProperty = async (id, data) => {
-  return await updateDoc(doc(db, 'propiedades', id), data)
-}
-
-export const deleteProperty = async (id) => {
-  return await deleteDoc(doc(db, 'propiedades', id))
 }

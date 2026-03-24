@@ -9,7 +9,7 @@ const firebaseConfig = {
   projectId: 'agent-cd80a',
   storageBucket: 'agent-cd80a.firebasestorage.app',
   messagingSenderId: '895233608037',
-  appId: '1:895233608037:web:333142c59098fbef81798c',
+  appId: '1:895233608037:web:333142c59098fbef81798c'
 }
 
 const app = initializeApp(firebaseConfig)

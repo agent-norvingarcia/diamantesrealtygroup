@@ -1,32 +1,40 @@
-import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import PropertyCard from '../components/PropertyCard'
-import { subscribeProperties } from '../services/properties'
+import { fetchProperties } from '../services/properties'
 
 export default function Propiedades() {
   const [properties, setProperties] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    const unsubscribe = subscribeProperties((items) => {
-      setProperties(items)
-      setLoading(false)
-    })
-    return unsubscribe
+    const load = async () => {
+      try {
+        const data = await fetchProperties()
+        setProperties(data)
+      } catch {
+        setError('No se pudieron cargar las propiedades. Verifica permisos de Firestore.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    load()
   }, [])
 
+  if (loading) return <section className="panel">Cargando propiedades...</section>
+  if (error) return <section className="panel">{error}</section>
+
   return (
-    <main className="section-wrap pt-28">
-      <h1 className="mb-8 text-4xl font-semibold">Propiedades destacadas</h1>
-      {loading ? (
-        <p className="animate-pulse text-slate-300">Cargando propiedades...</p>
-      ) : (
-        <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {properties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
-        </motion.div>
-      )}
-    </main>
+    <section className="stack">
+      <h2>Propiedades disponibles</h2>
+      <div className="grid">
+        {properties.length === 0 ? (
+          <p className="panel">No hay propiedades disponibles todavía.</p>
+        ) : (
+          properties.map((property) => <PropertyCard key={property.id} property={property} />)
+        )}
+      </div>
+    </section>
   )
 }

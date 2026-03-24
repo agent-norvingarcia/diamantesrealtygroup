@@ -1,48 +1,30 @@
-import { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { NavLink } from 'react-router-dom'
 
 const links = [
   { to: '/', label: 'Inicio' },
   { to: '/propiedades', label: 'Propiedades' },
-  { to: '/perfil', label: 'Perfil' },
   { to: '/mapa', label: 'Mapa' },
-  { to: '/contacto', label: 'Contacto' },
+  { to: '/perfil', label: 'Perfil' },
+  { to: '/admin', label: 'Admin' }
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all ${scrolled ? 'bg-slate-950/95 shadow-soft' : 'bg-slate-900/30'} backdrop-blur-xl`}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link to="/" className="text-xl font-semibold tracking-tight text-brand.gold">
-          Norvin García
-        </Link>
-        <nav className="flex gap-4 text-sm">
-          {links.map((link) => (
+    <header className="navbar-wrap">
+      <nav className="navbar">
+        <span className="brand">Diamantes Realty Group</span>
+        <div className="nav-links">
+          {links.map((item) => (
             <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `rounded-full px-4 py-2 transition hover:bg-white/10 ${isActive ? 'bg-white/10 text-brand.gold' : 'text-slate-100'}`
-              }
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             >
-              {link.label}
+              {item.label}
             </NavLink>
           ))}
-        </nav>
-      </div>
-    </motion.header>
+        </div>
+      </nav>
+    </header>
   )
 }

@@ -1,29 +1,11 @@
-# Norvin García Realty App
+# Diamantes Realty Group
 
-Aplicación web inmobiliaria premium construida con React + Vite + Tailwind + Firebase.
+Aplicación web inmobiliaria creada con React + Vite + Firebase, lista para despliegue en GitHub Pages bajo la ruta `/diamantesrealtygroup/`.
 
-## Setup
+## Comandos
 
-1. Instala dependencias:
-   ```bash
-   npm install
-   ```
-2. Copia `.env.example` a `.env` y coloca credenciales de Firebase.
-3. Ejecuta en desarrollo:
-   ```bash
-   npm run dev
-   ```
-4. Build producción:
-   ```bash
-   npm run build
-   ```
-
-## Firebase esperado
-
-- Firestore:
-  - `propiedades`
-  - `perfil` (documento `norvin`)
-- Storage:
-  - `propiedades/`
-- Auth:
-  - Email/password
+```bash
+npm install
+npm run dev
+npm run build
+```
