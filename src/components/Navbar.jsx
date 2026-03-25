@@ -1,18 +1,16 @@
 import { NavLink } from 'react-router-dom'
 
 const links = [
-  { to: '/', label: 'Inicio' },
+  { to: '/', label: 'Home' },
   { to: '/propiedades', label: 'Propiedades' },
-  { to: '/mapa', label: 'Mapa' },
-  { to: '/perfil', label: 'Perfil' },
-  { to: '/admin', label: 'Admin' }
+  { to: '/perfil', label: 'Perfil' }
 ]
 
 export default function Navbar() {
   return (
     <header className="navbar-wrap">
       <nav className="navbar">
-        <span className="brand">Diamantes Realty Group</span>
+        <span className="brand">Norvin García · Agente Inmobiliario</span>
         <div className="nav-links">
           {links.map((item) => (
             <NavLink

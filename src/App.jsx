@@ -2,9 +2,7 @@ import { NavLink, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Propiedades from './pages/Propiedades'
-import Mapa from './pages/Mapa'
 import Perfil from './pages/Perfil'
-import Admin from './pages/Admin'
 
 export default function App() {
   return (
@@ -14,9 +12,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/propiedades" element={<Propiedades />} />
-          <Route path="/mapa" element={<Mapa />} />
           <Route path="/perfil" element={<Perfil />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
